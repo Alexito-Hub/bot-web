@@ -1,6 +1,6 @@
 require('dotenv').config();
 const qrcode = require("qrcode-terminal");
-const { Client } = require("whatsapp-web.js");
+const { Client, LocalAuth, LegacySessionAuth } = require("whatsapp-web.js");
 
 const SESSION_FILE_PATH = "./session.json";
 const country_code = process.env.COUNTRY_CODE;
@@ -12,8 +12,10 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
     sessionData = require(SESSION_FILE_PATH);
 }
 
+const auth = sessionData ? new LegacySessionAuth(sessionData) : new LocalAuth();
+
 const client = new Client({
-    session: sessionData,
+    auth: auth,
 });
 
 client.on("qr", (qr) => {
