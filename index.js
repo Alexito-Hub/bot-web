@@ -1,4 +1,5 @@
 require('dotenv').config();
+const fs = require("fs")
 const qrcode = require("qrcode-terminal");
 const { Client, LocalAuth, LegacySessionAuth } = require("whatsapp-web.js");
 
