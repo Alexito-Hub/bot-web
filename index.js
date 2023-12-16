@@ -1,5 +1,4 @@
-require('dotenv').config()
-const fs = require("fs");
+require('dotenv').config();
 const qrcode = require("qrcode-terminal");
 const { Client } = require("whatsapp-web.js");
 
@@ -17,9 +16,8 @@ const client = new Client({
     session: sessionData,
 });
 
-client.initialize();
-
 client.on("qr", (qr) => {
+    console.log("Escanea el siguiente código QR con tu aplicación WhatsApp:");
     qrcode.generate(qr, { small: true });
 });
 
@@ -30,25 +28,22 @@ client.on("authenticated", (session) => {
             console.error(err);
         }
     });
+    console.log("Autenticado con éxito");
 });
 
 client.on("auth_failure", msg => {
-
-    console.error('AUTHENTICATION FAILURE', msg);
+    console.error('FALLO EN LA AUTENTICACIÓN', msg);
 })
 
-
 client.on("ready", () => {
-    console.log("Client is ready!");
+    console.log("Cliente listo para enviar mensajes.");
 
-    setTimeout(() => {
-      let chatId = `${country_code}${number}@c.us`;
-        client.sendMessage(chatId, msg).then((response) => {
-            if (response.id.fromMe) {
-                console.log("It works!");
-            }
-        })
-    }, 5000);
+    let chatId = `${country_code}${number}@c.us`;
+    client.sendMessage(chatId, msg).then((response) => {
+        if (response.id.fromMe) {
+            console.log("¡Funciona!");
+        }
+    });
 });
 
 client.on("message", message => {
@@ -57,3 +52,4 @@ client.on("message", message => {
     }
 });
 
+client.initialize();
