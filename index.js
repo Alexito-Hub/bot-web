@@ -26,11 +26,15 @@ client.on("qr", (qr) => {
 
 client.on("authenticated", (session) => {
     sessionData = session;
-    fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
-        if (err) {
-            console.error(err);
-        }
-    });
+    if (session) {
+        fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
+            if (err) {
+                console.error(err);
+            } else {
+                console.log("Datos de sesión guardados con éxito");
+            }
+        });
+    }
     console.log("Autenticado con éxito");
 });
 
