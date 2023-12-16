@@ -16,7 +16,7 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 const auth = sessionData ? new LegacySessionAuth(sessionData) : new LocalAuth();
 
 const client = new Client({
-    auth: auth,
+    auth: auth
 });
 
 client.on("qr", (qr) => {
@@ -28,8 +28,8 @@ client.on("authenticated", (session) => {
     sessionData = session;
     if (session) {
         fs.writeFile(SESSION_FILE_PATH, JSON.stringify(session), function (err) {
-            if (err) {
-                console.error(err);
+            if (e) {
+                console.error(e);
             } else {
                 console.log("Datos de sesión guardados con éxito");
             }
